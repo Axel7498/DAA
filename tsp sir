@@ -1,0 +1,71 @@
+#include<stdio.h>
+int main()
+{
+int i,n,j,cost=0,c[10][10],comp[10];
+printf("Enter the no of cities");
+scanf("%d",&n);
+printf("Enter the cost matrix");
+for(i=0;i<n;i++)
+{
+printf("Enter the element of rows %d",i+1);
+for(j=0;j<n;j++)
+{
+scanf("%d",&C[i][j]);
+comp[i]=0;
+}
+}
+
+
+printf("the cost matrix is\n");
+for(i=0;i<n;i++)
+{
+printf("\n");
+for(j=0;j<n;j++)
+printf("%d",c[i][j]);
+}//end for
+
+
+printf("\nthe path is ");
+minsort(0);
+printf("\nminimum cost is=%d",cost);
+
+return 0;
+}
+
+
+void mincost(int city)
+{
+int ncity,i;
+comp[city]=1;
+printf("%d---->",city+1);
+ncity=least(city);
+if(ncity==999)
+{
+ncity==0;
+printf("%d",ncity+1);
+cost=cost+c[city][ncity];
+return;
+}//end if
+mincost(ncity);
+}//end mincost
+
+
+int least(int ct)
+{
+int i,nc=999,min=999,kmin;
+for(i=0;i<n;i++)
+{
+if(c[ct][i]!=0&&comp[i]==0)
+{
+if(c[ct][i]+c[i][ct]<min)
+{
+min=c[i][0]+c[ct][i];
+kmin=c[ct][i];
+nc=i;
+}
+}
+}
+if(min!=999)
+cost+=kmin;
+return nc;
+}
