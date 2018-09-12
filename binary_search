@@ -1,0 +1,44 @@
+//binary search through recursive call
+#include<stdio.h>
+int main(){
+    int i,n,pos;
+    int size;
+    printf("enter the size of the array");
+    scanf("%d",&size);
+    int ar[size];
+    printf("enter the elements in the array in sorted order");
+    for(i=0;i<size;i++){
+        scanf("%d",&ar[i]);
+    }
+    //printing of the array
+    for(i=0;i<size;i++){
+        printf("%d || ",ar[i]);
+    }
+    //searching part
+    printf("enter the element to search for");
+    scanf("%d",&n);
+    pos=binsearch(ar,n,0,size);
+    if(pos==-1)
+        printf("the element was not found in the array");
+    else
+        printf("the element %d was found at position %d of the array",n,pos);
+}
+
+//searching function
+
+int binsearch(int* a,int n,int first,int last){
+    int mid=0;
+    
+    if(first<=last){
+        mid=(first+last)/2;
+        if(a[mid]==n)
+            return mid;
+        else
+        if(a[mid]<n)
+            return binsearch(a,n,mid+1,last);
+        else
+            return binsearch(a,n,first,mid-1);
+    }
+    return -1;
+    
+}
