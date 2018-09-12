@@ -1,0 +1,59 @@
+#include<stdio.h>
+
+int main()
+	{
+	int cost[100][100],path[100][100],n,v,p,distance[100],min,row,column,index,i,j;
+	printf("enter the no. of vertices");
+	scanf("%d",&n);
+	printf("Enter the cost matrix");
+	for(i=1;i<=n;i++)
+	{
+		for(j=1;j<=n;j++)
+		{
+			scanf("%d",&cost[i][j]);
+		}
+	}
+	printf("Enter the node to visit");
+	scanf("%d",&v);
+	printf("Enter the path for the selected node");
+	scanf("%d",&p);
+	printf("Enter the pathmatrix");
+	for(i=1;i<=p;i++)
+		{
+		for(j=1;j<=n;j++)
+			{
+				scanf("%d",&path[i][j]);
+			}
+		}
+	for(i=1;i<=p;i++)
+		{	
+			distance[i]=0;
+			row=1;
+			for(j=1;j<=n;j++)
+				{
+					if(row!=v)
+						{
+							column=path[i][j]+1;
+							distance[i]=distance[i]+cost[row][column];
+						}//endif
+				row=column;
+				}//end for
+		}//end for
+	min=distance[1];
+	for(i=1;i<=p;i++)
+		{
+			if(distance[i]<=min)
+				{
+					min=distance[i];
+					index=i;
+				}//end if
+		}//end for
+	printf("The min distance is %d",min);
+	printf("\npath:");
+	for(i=1;i<=n;i++)
+		{
+			if(path[index][i]!=0)
+			printf("%d",path[index][i]);
+		}//end for
+	return 0;
+}
