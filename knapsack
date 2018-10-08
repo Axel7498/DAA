@@ -1,70 +1,70 @@
-//fractional knapsack date 06/10/2018
-// no of items,capacity,profit,weight and ratio--arrays and variables
-
 #include<stdio.h>
-void knapsack(int n, float weight[], float profit[], float capacity){
-	int i;
-	float u,tp=0.0,x[100];
-	u=capacity;
-	for(i=0;i<n;i++)
-		x[i]=0.0;
-		for(i=0;i<n;i++){
-			if(weight[i]>u)
-			break;
-			else{
-				x[i]=1.0;
-				u=u-weight[i];
-				tp=tp+profit[i];
-			    	}
-			}
-			if(i<n){
-			x[i]=u/weight[i];
-			tp=tp+(x[i]*profit[i]);
-			}
-			for(i=0;i<n;i++){
-				printf("%f\t",x[i]);
-				printf("\nMaximum profit is  %.2f",tp);
-			}
-	}
 
-int main() {
-   float weight[20], profit[20], capacity;
-   int num, i, j;
-   float ratio[20], temp;
- 
-   printf("\nEnter the no. of items ");
-   scanf("%d", &num);
- 
-   printf("\nEnter the weight and profits");
-   for (i = 0; i < num; i++) {
-      scanf("%f %f", &weight[i], &profit[i]);
-   }
- 
-   printf("\nEnter the capacity of knapsack");
-   scanf("%f", &capacity);
- 
-   for (i = 0; i < num; i++) {
-      ratio[i] = profit[i] / weight[i];
-   }
- 
-   for (i = 0; i < num; i++) {
-      for (j = i + 1; j < num; j++) {
-         if (ratio[i] < ratio[j]) {
-            temp = ratio[j];
-            ratio[j] = ratio[i];
-            ratio[i] = temp;
- 
-            temp = weight[j];
-            weight[j] = weight[i];
-            weight[i] = temp;
- 
-            temp = profit[j];
-            profit[j] = profit[i];
-            profit[i] = temp;
-         }
-      }
-   }
- 
-   knapsack(num,profit,weight, capacity);
-   return(0);
+void fractionalKnapsack(float capacity,float *itemProfit,float *itemWeight,float *ratio,int n){
+    for(int i = 0;i<n;i++){
+        for(int j = 0;j<n - i - 1;j++){
+            if(ratio[j] < ratio[j+1]){
+                float temp = ratio[j];
+                ratio[j] = ratio[j+1];
+                ratio[j+1] = temp;
+                
+                temp = ratio[j];
+                itemProfit[j] = itemProfit[j+1];
+                itemProfit[j+1] = temp;
+                
+                temp = itemProfit[j];
+                itemWeight[j] = itemWeight[j+1];
+                itemWeight[j+1] = temp;
+            }
+        }
+    }
+    for(int i = 0;i<n;i++){
+        printf("%f %f\n",itemProfit[i],itemWeight[i]);
+    }
+    float items[n];
+    for(int i = 0;i<n;i++)
+        items[i] = 0.0;
+    
+    float sum = 0;
+    int i = 0;
+    while(sum <= capacity && i < n){
+        sum += itemWeight[i];
+        if(sum <= capacity){
+            items[i] = 1;
+            i += 1;
+        }
+        else{
+            sum -= itemWeight[i];
+            items[i] = (capacity - sum)/itemWeight[i];
+            break;
+        }
+    }
+    float totalProfit = 0;
+    for(int i= 0;i<n;i++){
+        printf("%f  ",items[i]);
+        totalProfit += (itemProfit[i]*items[i]);
+    } 
+    printf("%f",totalProfit);
+}
+
+int main(){
+    printf("Enter no of items : ");
+    int n;
+    scanf("%d",&n);
+    float itemsProfit[n],itemsWeight[n],ratio[n];
+    printf("Enter profits : ");    
+    for(int i = 0;i<n;i++)
+        scanf("%f",&itemsProfit[i]);
+    printf("Enter weights : ");
+    for(int i = 0;i<n;i++){
+        scanf("%f",&itemsWeight[i]);
+        ratio[i] = itemsProfit[i]/itemsWeight[i];
+    }
+    printf("Enter total capacity of knapsack : ");
+    float capacity;
+    scanf("%f",&capacity);
+    fractionalKnapsack(capacity,itemsProfit,itemsWeight,ratio,n);
+    return 0;
+    
+    
 }
